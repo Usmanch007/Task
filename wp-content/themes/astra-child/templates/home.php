@@ -5,7 +5,6 @@
 
 get_header(); // Include Astra header
 
-// Force pagination fix for localhost
 $paged = (get_query_var('paged')) ? absint(get_query_var('paged')) : 1;
 if (isset($_GET['paged'])) {
     $paged = absint($_GET['paged']);
