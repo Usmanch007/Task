@@ -26,21 +26,17 @@ add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );
 
 
 // restict user's IP based
-function restrict_ip_external_check() {
-    $response = wp_remote_get('https://api64.ipify.org?format=json');
-    
-    if (is_wp_error($response)) {
-        return;
-    }
+function restrict_ip_users() {
+    // Get the visitor's IP address
+    $user_ip = $_SERVER['REMOTE_ADDR'];
 
-    $data = json_decode(wp_remote_retrieve_body($response), true);
-    $user_ip = $data['ip'] ?? '';
-
+    // Check if IP starts with "115.186"
     if (strpos($user_ip, '77.29') === 0) {
-        wp_die('Access Denied', '403 Forbidden', array('response' => 403));
+        wp_safe_redirect('http://usmantask.fwh.is/access-denied'); // Redirect to a custom page
+        exit;
     }
 }
-add_action('init', 'restrict_ip_external_check');
+add_action('init', 'restrict_ip_users');
 
 // CPT projects and taxonomy
 
